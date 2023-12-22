@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0; 
+  }
+  
+  .navbar {
+    /* background-color: #10273f; */
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(213, 206, 206, 0.2), 0 6px 20px 0 rgba(193, 189, 189, 0.19);
+    position: static;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .routes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .routes a {
+    
+    color: #1d1c1c;
+    text-decoration: none;
+    padding: 15px;
+    margin: 0 10px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .navbar a:hover {
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1d1c1c;
+  }
+  
+  .signup-btn {
+    background-color: #49bc79;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .signup-btn:hover {
+    background-color: #023c1a;
+    color: aliceblue;
+  }
