@@ -10,7 +10,7 @@ import "./Services.css";
 
 const Services = () => {
   return (
-    <div className="main-container">
+    <div className="main-container" id = "section3">
         <div className="sub-container">
              <div className="box">
              <img src={Blood}/>

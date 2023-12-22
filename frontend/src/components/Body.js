@@ -8,7 +8,7 @@ import Services from "./Services";
 const Body = () => {
   return (
 
-    <div className="Body">
+    <div className="Body" id ="section2">
     
     <div className="container">
     <div className="Image">

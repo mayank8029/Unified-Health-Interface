@@ -23,27 +23,27 @@ const Navbar = () => {
         <Link
           variant="button"
           color="text.primary"
-          href="#"
+          href="#section2"
           sx={{ my: 1, mx: 1.5 }}
         >
-          Features
+          About
         </Link>
         <Link
           variant="button"
           color="text.primary"
-          href="#"
+          href="#section3"
           sx={{ my: 1, mx: 1.5 }}
         >
-          Enterprise
+          Services
         </Link>
         <Link
-          variant="button"
-          color="text.primary"
-          href="#"
-          sx={{ my: 1, mx: 1.5 }}
-        >
-          Support
-        </Link>
+        variant="button"
+        color="text.primary"
+        href="#section4"
+        sx={{ my: 1, mx: 1.5 }}
+      >
+        Benefits
+      </Link>
       </nav>
       <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
         Login

@@ -1,0 +1,50 @@
+.container-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+
+}
+
+.container-content{
+    display: flex;
+    justify-content:space-between ;
+    align-items: center;
+}
+
+
+.container-content-one{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0rem;
+    margin-right: 6rem;
+    margin-left: 4rem;
+    margin-top: 4%;
+
+}
+
+.container-content-one-para{
+      /* margin-bottom: 2rem; */
+      width: 25vw;
+      padding: 1rem;
+}
+
+.benefits-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+    width: 25vw;
+    max-height: 10vh;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.benefits-container img{
+    height: 6rem;
+    width: 6rem;
+}

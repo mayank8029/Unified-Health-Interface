@@ -6,7 +6,7 @@ import './Hero.css'
 import { orange } from '@mui/material/colors'
 const Hero = () => {
   return (
-    <div className='container'>
+    <div className='container' id = 'section1'>
     <div className='para'>
     <div className='heading'>
     <Typography className='Typography' variant="h3" color='orange'>Signup for utilizing UHI</Typography>
