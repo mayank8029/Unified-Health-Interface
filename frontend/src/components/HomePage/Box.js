@@ -1,12 +1,12 @@
 import React from "react";
-import image1 from "../images/hsp-icon1.png";
+import image1 from "../../images/hsp-icon1.png";
 import { Typography } from "@mui/material";
 import "./Box.css";
-import uhibenifit1 from '../images/uhi-benifit1.png'
-import uhibenifite4 from "../images/uhi-benifite4.png"
-import benifit6 from "../images/benifit6.png"
-import hspcon3 from "../images/hsp-con3.png"
-import hspicon2 from "../images/hsp-icon2.png"
+import uhibenifit1 from '../../images/uhi-benifit1.png'
+import uhibenifite4 from "../../images/uhi-benifite4.png"
+import benifit6 from "../../images/benifit6.png"
+import hspcon3 from "../../images/hsp-con3.png"
+import hspicon2 from "../../images/hsp-icon2.png"
 import { orange } from "@mui/material/colors";
 const Box = (props) => {
   return (

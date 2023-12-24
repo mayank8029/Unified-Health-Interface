@@ -1,9 +1,9 @@
 import React from "react";
-import Blood from "../images/Blood.png";
-import Ambulance from "../images/Ambulance.png"
-import Hospital from "../images/Hospital.png";
-import Laboratory from "../images/Laboratory.png"
-import Medical from "../images/Medical.png";
+import Blood from "../../images/Blood.png";
+import Ambulance from "../../images/Ambulance.png"
+import Hospital from "../../images/Hospital.png";
+import Laboratory from "../../images/Laboratory.png"
+import Medical from "../../images/Medical.png";
 
 
 import "./Services.css";

@@ -1,5 +1,6 @@
 import React from "react";
-import Bodyimage1 from "../images/Image.png";
+import Bodyimage1 from "../../images/Image.png";
+
 import { Box, Typography } from "@mui/material";
 import "./Body.css";
 import Services from "./Services";

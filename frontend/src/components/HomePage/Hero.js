@@ -1,6 +1,6 @@
 import React from 'react'
 import { Typography } from '@mui/material'
-import HeroImage from '../images/HeroImage.png'
+import HeroImage from '../../images/HeroImage.png'
 import './Hero.css'
 
 import { orange } from '@mui/material/colors'

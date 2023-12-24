@@ -1,10 +1,10 @@
 import React from 'react'
 import image from  '../images/image1.webp'
 import './HomePage.css'
-import Navbar from '../components/Navbar'
-import Hero from '../components/Hero'
-import Body from '../components/Body'
-import Box from '../components/Box'
+import Navbar from '../components/HomePage/Navbar'
+import Hero from '../components/HomePage/Hero'
+import Body from '../components/HomePage/Body'
+import Box from '../components/HomePage/Box'
 
 const HomePage = () => {
   return (
