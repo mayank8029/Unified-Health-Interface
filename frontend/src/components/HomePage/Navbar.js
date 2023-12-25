@@ -1,9 +1,8 @@
 import React from 'react'
 import "./Navbar.css"
-import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { AppBar , Toolbar , Typography , Link } from '@mui/material';
-
+import { Link as routerLink } from 'react-router-dom';
 
 
 const Navbar = () => {
@@ -45,7 +44,7 @@ const Navbar = () => {
         Benefits
       </Link>
       </nav>
-      <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+      <Button component={routerLink} to="/login" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
         Login
       </Button>
     </Toolbar>
