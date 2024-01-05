@@ -1,12 +1,12 @@
 import React from 'react'
-import Form from '../components/Form/Form'
-import Navbar from '../components/HomePage/Navbar'
+import Sign from '../../components/Form/Sign-in'
+import Navbar from '../../components/HomePage/Navbar'
 
 const Login = () => {
   return (
     <div>
     <Navbar/>
-    <Form/>
+    <Sign/>
     </div>
   )
 }

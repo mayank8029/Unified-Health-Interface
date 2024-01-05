@@ -44,7 +44,7 @@ const Navbar = () => {
         Benefits
       </Link>
       </nav>
-      <Button component={routerLink} to="/login" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+      <Button component={routerLink} to="/signin" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
         Login
       </Button>
     </Toolbar>

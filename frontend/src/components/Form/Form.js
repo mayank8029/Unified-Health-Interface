@@ -5,14 +5,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { Route as routerLink } from 'react-router-dom';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -103,6 +103,17 @@ export default function Form() {
                 />
               </Grid>
               <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="PhoneNumber"
+                label="Phone Number"
+                type='Phone Number'
+                id="PhoneNumber"
+                autoComplete="PhoneNumber"
+              />
+            </Grid>
+              <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
@@ -119,7 +130,7 @@ export default function Form() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to = '/signin'>
                   Already have an account? Sign in
                 </Link>
               </Grid>
