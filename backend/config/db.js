@@ -1,9 +1,11 @@
 const { default: mongoose } = require("mongoose");
 
+
 exports.connectToDatabase=()=>{
       try {
-
-        mongoose.connect('mongodb+srv://Unified-Health-Interface:Unified-Health-Interface-123@cluster0.4fqgkpc.mongodb.net/')
+        console.log("hello my name is mayank")
+       
+        mongoose.connect(process.env.MONGOURL)
         console.log("database connected")
         
       } catch (error) {

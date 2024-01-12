@@ -23,6 +23,10 @@ const userSchema= mongoose.Schema({
         unique:true , 
         required:true , 
     } ,
+    gender:{
+        type:String , 
+        required:true , 
+    },
     dob:{
         type:Date,
         required:true 
