@@ -20,4 +20,5 @@ const hospitalSchema = mongoose.Schema({
 
 })
 
-mocule.exports = mongoose.model("hospital" , hospitalSchema)
+const hospital= mongoose.model("hospital" , hospitalSchema)
+module.exports={hospital} 

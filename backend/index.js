@@ -5,8 +5,14 @@ const port = 5000 ;
 const dotenv = require('dotenv')
 
 
+const corsOptions = {
+     origin: true 
+}
+
 dotenv.config();
 
+//middlewares
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
@@ -20,11 +26,14 @@ const {connectToDatabase} = require('./config/db.js')
 // connect to database 
 connectToDatabase()
 
+
 // defining points 
 app.use('/api/user' , userRouter);
 app.use('/api/doctor' , doctorRouter)
 app.use('/api/hospital' , hospitalRouter)
 
+
+//Port 
 app.listen(port , ()=>{
     console.log(`app is at port ${port}`)
 })

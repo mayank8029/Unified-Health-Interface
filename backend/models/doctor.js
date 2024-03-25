@@ -1,4 +1,8 @@
 const mongoose = require('mongoose')
+const {hospital} = require('./Hospital');
+const { func } = require('joi');
+
+
 
 const doctorSchema = mongoose.Schema({
     firstName:{
@@ -27,19 +31,52 @@ const doctorSchema = mongoose.Schema({
         type:String , 
         required:true , 
     },
-    collage:{
-        type:String , 
-        required:true , 
-    },
     specialization:{
-        type:String, 
+        type:[String], 
         rquired:true , 
     },
     hospital:{
-        type:String , 
-        required:true , 
 
-    }
+            type:Schema.Types.ObjectId,
+            ref:'hospital', 
+        required:function(){
+            return !this.Clinic;
+        }
+    },
+    Clinic:{
+        type:String,
+        required:function(){
+            return !this.hospital;
+        }
+
+    },
+    
+    qualifications: {
+      type: Array,
+    },
+  
+    experiences: {
+      type: Array,
+    },
+  
+    bio: { type: String, maxLength: 50 },
+    about: { type: String },
+    timeSlots: { type: Array },
+    reviews: [{ type: mongoose.Types.ObjectId, ref: "Review" }],
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    totalRating: {
+      type: Number,
+      default: 0,
+    },
+    isApproved: {
+      type: String,
+      enum: ["pending", "approved", "cancelled"],
+      default: "pending",
+    },
+    appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
 })
 
 
