@@ -2,7 +2,24 @@ const mongoose = require('mongoose')
 const {hospital} = require('./Hospital');
 const { func } = require('joi');
 
-
+const addressSchema = mongoose.Schema({
+    street: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    state: {
+        type: String,
+        required: true
+    },
+    postalCode: {
+        type: String,
+        required: true
+    }
+});
 
 const doctorSchema = mongoose.Schema({
     firstName:{
@@ -77,6 +94,10 @@ const doctorSchema = mongoose.Schema({
       default: "pending",
     },
     appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
+    address:{
+        type: addressSchema,
+        required: true 
+    }
 })
 
 
