@@ -50,4 +50,4 @@ const appointmentSchema = mongoose.Schema({
 
 const appointmentModel = mongoose.model("appointmentModel" , appointmentSchema) ; 
 
-module.exports = {appointmentModel}
+module.exports = {appointmentModel , appointmentSchema}

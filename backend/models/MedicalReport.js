@@ -48,4 +48,4 @@ const MedicalReportSchema = mongoose.Schema({
 const MedicalReportModel = mongoose.model("MediacalReportModal" , MedicalReportSchema)
 
 
-module.exports = {MedicalReportModel}
+module.exports = {MedicalReportModel , MedicalReportSchema}

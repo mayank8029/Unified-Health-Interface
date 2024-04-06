@@ -1,4 +1,14 @@
 const mongoose = require('mongoose')
+const {MedicalReportModel , MedicalReportSchema} = require('./MedicalReport')
+const  {appointmentModel , appointmentSchema} = require('./Appointment')
+const consultedDoctorSchema = new mongoose.Schema({
+    doctor_id: { type: String, required: true },
+    name: { type: String, required: true },
+    specialty: { type: String, required: true },
+    date: { type: Date, default: Date.now },
+    reason: { type: String, required: true }
+  });
+
 
 const userSchema= mongoose.Schema({
     firstName: {
@@ -30,11 +40,23 @@ const userSchema= mongoose.Schema({
     dob:{
         type:Date,
         required:true 
-    } 
+    } ,
+    
+    doctors:{
+        type:[consultedDoctorSchema]
+    },
+
+    medicalReports:{
+        type:[MedicalReportSchema]
+    } ,
+
+    appointmentSchema:{
+        type:[appointmentSchema]
+    }
         
 
 })
 
-const user = mongoose.model('user' , userSchema)
 
+const user = mongoose.model('user' , userSchema)
 module.exports={user}
