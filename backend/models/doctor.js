@@ -5,20 +5,34 @@ const addressSchema = new Schema({
   street: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String, required: true },
-  postalCode: { type: String, required: true }
+  postalCode: { type: String, required: true },
+  country: { type: String, default: 'India' } // Added default country if specific to a region
 });
 
 const qualificationSchema = new Schema({
   degree: { type: String, required: true },
   institution: { type: String, required: true },
-  year: { type: Number }
+  year: { type: Number, min: 1900, max: new Date().getFullYear() } // Added validation for year
 });
 
 const experienceSchema = new Schema({
   position: { type: String, required: true },
   workplace: { type: String, required: true },
-  from: { type: Date },
-  to: { type: Date }
+  from: { type: Date, required: true },
+  to: { type: Date },
+  isCurrent: { type: Boolean, default: false }
+});
+
+const specializationSchema = new Schema({
+  name: { type: String, required: true, unique: true }, // Ensure uniqueness across specializations
+  description: { type: String }
+});
+
+const reviewSchema = new Schema({
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  comment: { type: String, trim: true },
+  reviewer: { type: Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
+  createdOn: { type: Date, default: Date.now } // Track when a review was created
 });
 
 const doctorSchema = new Schema({
@@ -29,7 +43,7 @@ const doctorSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    match: [/^[6789]\d{9}$/, 'Please fill a valid Indian phone number'] // Regex for Indian phone numbers
+    match: [/^[6789]\d{9}$/, 'Please fill a valid Indian phone number']
   },
   email: {
     type: String,
@@ -39,7 +53,7 @@ const doctorSchema = new Schema({
     lowercase: true
   },
   password: { type: String, required: true },
-  specialization: [{ type: String, required: true }],
+  specializations: [specializationSchema], // Embedded subdocument
   hospital: {
     type: Schema.Types.ObjectId,
     ref: 'Hospital',
@@ -54,17 +68,24 @@ const doctorSchema = new Schema({
   experiences: [experienceSchema],
   bio: { type: String, maxLength: 255 },
   about: { type: String },
-  timeSlots: [{ day: String, start: String, end: String }],
-  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
-  averageRating: { type: Number, default: 0 },
+  registrationNumber: { type: String, unique: true, required: true },
+  profilePicture: { type: String, default: 'default-profile.jpg' }, // Default image path
+  consultationFee: { type: Number, required: true }, // Made required
+  timeSlots: [{
+    day: { type: String, required: true },
+    start: { type: String, required: true },
+    end: { type: String, required: true }
+  }],
+  reviews: [reviewSchema],
+  averageRating: { type: Number, default: 0, min: 0, max: 5 },
   totalRating: { type: Number, default: 0 },
   isApproved: {
     type: String,
-    enum: ["pending", "approved", "cancelled"],
-    default: "pending"
+    enum: ['pending', 'approved', 'cancelled'],
+    default: 'pending'
   },
   appointments: [{ type: Schema.Types.ObjectId, ref: "Appointment" }],
-  address: { type: addressSchema, required: true }
+  address: addressSchema
 });
 
 const Doctor = mongoose.model('Doctor', doctorSchema);
