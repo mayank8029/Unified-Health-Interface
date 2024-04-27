@@ -118,8 +118,13 @@ const getHospitalDetails = async (req, res) => {
 };
 
 const editHospitalDetails = async (req, res) => {
-    const hospitalId = req.params.id;
+    const hospitalId = req.params.hospitalId;
     const updateData = req.body;
+
+    if (req.hospital !== req.params.hospitalId) {
+        return res.status(403).json({ message: "Unauthorized: You can only update your own profile." });
+    }
+
 
     // Validate incoming data
     const { value, error } = editHospitalSchema.validate(updateData);
@@ -140,7 +145,40 @@ const editHospitalDetails = async (req, res) => {
 };
 
 const getHospitalList = async(req , res)=>{
+    const { longitude, latitude, city, state, page = 1, limit = 10 } = req.query;
+    const options = {
+        page: parseInt(page, 10), // Convert page number to integer
+        limit: parseInt(limit, 10), // Convert limit to integer
+    };
 
+    try {
+        let query = {};
+        // Check if longitude and latitude are provided for geospatial search
+        if (longitude && latitude) {
+            const maxDistance = 10000; // Define the search radius (10 kilometers)
+            query.location = {
+                $near: { // MongoDB's $near operator for location-based queries
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [parseFloat(longitude), parseFloat(latitude)]
+                    },
+                    $maxDistance: maxDistance
+                }
+            };
+        }
+
+        // Check if city or state is provided for attribute-based search
+        if (city || state) {
+            if (city) query['address.city'] = city;
+            if (state) query['address.state'] = state;
+        }
+
+        // Execute the query with pagination
+        const result = await Hospital.paginate(query, options);
+        res.json(result); // Send the result back to the client
+    } catch (error) {
+        res.status(500).send(error.toString()); // Handle any errors
+    }
 }
 
 

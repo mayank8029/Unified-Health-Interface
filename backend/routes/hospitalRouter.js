@@ -9,9 +9,15 @@ router.post('/register' , registerHospital)
 router.get('/login' , loginHospital)
 
 // Hospital routes
-router.get('/hospitals',   getHospitalList);
-router.get('/hospitals/:hospitalId', getHospitalDetails);
-router.put('/hospitals/:hospitalId/edit',authenticateHospital , editHospitalDetails)
+router.get('/gethospitals/search',   getHospitalList);
+// Geolocation Search: http://localhost:3000/api/hospitals/search?longitude=77.5946&latitude=12.9716
+// City Search: http://localhost:3000/api/hospitals/search?city=Bangalore
+// State Search: http://localhost:3000/api/hospitals/search?state=Karnataka
+// Pagination with City Search: http://localhost:3000/api/hospitals/search?city=Bangalore&page=1&limit=10
+
+
+router.get('/gethospitals/:hospitalId', getHospitalDetails);
+router.put('/gethospitals/:hospitalId/edit',authenticateHospital , editHospitalDetails)
 // router.post('/hospitals/:hospitalId/appointments', createAppointmentWithHospital);
 
 

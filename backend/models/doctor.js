@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const addressSchema = new Schema({
   street: { type: String, required: true },
@@ -90,4 +91,5 @@ const doctorSchema = new Schema({
 
 const Doctor = mongoose.model('Doctor', doctorSchema);
 
+doctorSchema.plugin(mongoosePaginate);
 module.exports = Doctor;

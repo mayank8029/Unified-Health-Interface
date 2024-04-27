@@ -180,7 +180,39 @@ const getDoctorProfile = async (req, res) => {
 };
 
 const getDoctorList = async(req , res)=>{
+  const { longitude, latitude, city, state, expertise, page = 1, limit = 10 } = req.query;
 
+  let query = {};
+  let options = {
+      page: parseInt(page, 10), // current page number
+      limit: parseInt(limit, 10), // documents per page
+      sort: { name: 1 }, // sorting by name, ascending
+  };
+
+  // Geospatial query if longitude and latitude are provided
+  if (longitude && latitude) {
+      const maxDistance = 10000; // 10 kilometers
+      query.location = {
+          $near: {
+              $geometry: { type: "Point", coordinates: [parseFloat(longitude), parseFloat(latitude)] },
+              $maxDistance: maxDistance
+          }
+      };
+  }
+
+  // Adding city and state filters if provided
+  if (city) query.city = city;
+  if (state) query.state = state;
+
+  // Expertise filter if provided
+  if (expertise) query.expertise = { $in: [expertise] };
+
+  try {
+      const result = await Doctor.paginate(query, options);
+      res.json(result);
+  } catch (error) {
+      res.status(500).send({ message: "Error searching for doctors", error: error.message });
+  }
 }
 
 module.exports = { registerDoctor , loginDoctor , editDoctorDetails , getDoctorProfile , getDoctorList};

@@ -1,5 +1,5 @@
 const express = require("express") ; 
-const { registerDoctor, loginDoctor, editDoctorDetails, getDoctorProfile } = require("../controllers/doctor");
+const { registerDoctor, loginDoctor, editDoctorDetails, getDoctorProfile, getDoctorList } = require("../controllers/doctor");
 const authenticateDoctor = require("../middlewares/authenticateDoctor");
 const router = express.Router()
 
@@ -12,6 +12,10 @@ router.get('/login' , loginDoctor)
 //profile 
 router.get('/profile' , getDoctorProfile)
 router.put('/profile/edit',authenticateDoctor , editDoctorDetails)
+
+//get doctor based on fileter 
+router.get('/getdoctors/search' , getDoctorList)
+
 
 //appointments
 router.get('/appointment')

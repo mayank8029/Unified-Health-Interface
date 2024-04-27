@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const addressSchema = new Schema({
   street: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String, required: true },
   postalCode: { type: String, required: true }
+});
+
+const locationSchema = new Schema({
+  type: { type: String, default: 'Point' },
+  coordinates: { type: [Number], index: '2dsphere' } // [longitude, latitude]
 });
 
 const hospitalSchema = new Schema({
@@ -46,8 +52,11 @@ const hospitalSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Doctor'
   }],
+  location: locationSchema,
   // Additional fields such as capacity, ratings, etc., can be added here
 });
+
+hospitalSchema.plugin(mongoosePaginate)
 
 const Hospital = mongoose.model('Hospital', hospitalSchema);
 

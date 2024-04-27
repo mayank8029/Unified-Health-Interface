@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const { Schema } = mongoose;
 
-// Reusing the address schema defined earlier for consistency
 const addressSchema = new Schema({
   street: { type: String, required: true },
   city: { type: String, required: true },
@@ -19,26 +19,29 @@ const clinicSchema = new Schema({
     type: addressSchema,
     required: true
   },
+  location: {
+    type: { type: String, default: 'Point' },
+    coordinates: { type: [Number], index: '2dsphere' }
+  },
   phoneNumber: {
     type: String,
     required: true,
-    match: [/^[6789]\d{9}$/, 'Please fill a valid Indian phone number'], // Regex for Indian phone numbers
-    unique: true
+    unique: true,
+    match: [/^[6789]\d{9}$/, 'Please fill a valid Indian phone number']
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    trim: true,
     lowercase: true
   },
   doctors: [{
     type: Schema.Types.ObjectId,
     ref: 'Doctor'
   }],
-  // Additional fields like services offered, opening hours, etc., can be added here
 });
 
-const Clinic = mongoose.model('Clinic', clinicSchema);
+// Adding the pagination plugin to the clinic schema
+clinicSchema.plugin(mongoosePaginate);
 
-module.exports = Clinic;
+const Clinic = mongoose.model('Clinic', clinicSchema);

@@ -20,6 +20,7 @@ app.use(express.urlencoded({extended:true}))
 const userRouter = require('./routes/userRouter')
 const doctorRouter = require('./routes/doctorRouter')
 const hospitalRouter = require('./routes/hospitalRouter');
+const clinicRouter = require('./routes/ClinicRoutes')
 const {connectToDatabase} = require('./config/db.js')
 
 
@@ -31,6 +32,7 @@ connectToDatabase()
 app.use('/api/user' , userRouter);
 app.use('/api/doctor' , doctorRouter)
 app.use('/api/hospital' , hospitalRouter)
+app.use('/api/clinic' , clinicRouter)
 
 
 //Port 
