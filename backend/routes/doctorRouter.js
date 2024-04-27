@@ -1,15 +1,17 @@
 const express = require("express") ; 
+const { registerDoctor, loginDoctor, editDoctorDetails, getDoctorProfile } = require("../controllers/doctor");
+const authenticateDoctor = require("../middlewares/authenticateDoctor");
 const router = express.Router()
 
 
 
 //register and login 
-router.post('/register')
-router.get('/login')
+router.post('/register' , registerDoctor)
+router.get('/login' , loginDoctor)
 
 //profile 
-router.get('/profile')
-router.put('/profile/edit')
+router.get('/profile' , getDoctorProfile)
+router.put('/profile/edit',authenticateDoctor , editDoctorDetails)
 
 //appointments
 router.get('/appointment')
@@ -25,7 +27,6 @@ router.get('/patients/:patientId/get-access-records')
 
 
 // get feedback 
-
 router.get('/feedback')
 
 

@@ -159,7 +159,28 @@ const editDoctorDetails = async (req, res) => {
 };
 
 
+const getDoctorProfile = async (req, res) => {
+    const { doctorId } = req.params; // Assuming doctorId is passed as a URL parameter
+
+    try {
+        const doctor = await Doctor.findById(doctorId)
+            .populate('specializations')  // Example of populating related documents, if applicable
+            .populate('hospital')        // Assuming 'hospital' is a referenced document
+            .populate('clinic');         // Assuming 'clinic' is a referenced document
+
+        if (!doctor) {
+            return res.status(404).json({ message: "Doctor not found" });
+        }
+
+        res.status(200).json(doctor);
+    } catch (err) {
+        console.error("Failed to retrieve doctor:", err);
+        res.status(500).json({ message: "Internal Server Error", error: err.message });
+    }
+};
+
+
   
 
 
-module.exports = { registerDoctor , loginDoctor , editDoctorDetails };
+module.exports = { registerDoctor , loginDoctor , editDoctorDetails , getDoctorProfile };

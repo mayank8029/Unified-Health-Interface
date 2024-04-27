@@ -44,16 +44,6 @@ router.post('/login', userLogin);
 router.get('/your-profile',authMiddleware, userProfile);
 router.put('/your-profile/edit',authMiddleware, editUserProfile);
 
-// // Hospital routes
-// router.get('/hospitals', getHospitalList);
-// router.get('/hospitals/:hospitalId', getHospitalDetails);
-// router.post('/hospitals/:hospitalId/appointments', createAppointmentWithHospital);
-//  // ---------------- There are something that we improve here like get doctors of hospital and then make appointment 
-
-// // Doctor routes
-// router.get('/doctors', getAllDoctors);
-// router.post('/doctors/:doctorId/appointments', createAppointmentWithDoctor);
-
 // // Health record routes
 // router.get('/healthrecords', getHealthRecord);
 // router.get('/healthrecords/:recordId', getHealthRecordById);
