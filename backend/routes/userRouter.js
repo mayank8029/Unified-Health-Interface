@@ -7,7 +7,6 @@ const {
   userProfile,
   editUserProfile,
   getHospitalList,
-  getHospitalDetails,
   createAppointmentWithHospital,
   getAllDoctors,
   createAppointmentWithDoctor,

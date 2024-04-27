@@ -179,8 +179,8 @@ const getDoctorProfile = async (req, res) => {
     }
 };
 
+const getDoctorList = async(req , res)=>{
 
-  
+}
 
-
-module.exports = { registerDoctor , loginDoctor , editDoctorDetails , getDoctorProfile };
+module.exports = { registerDoctor , loginDoctor , editDoctorDetails , getDoctorProfile , getDoctorList};
