@@ -18,8 +18,38 @@ const registerHospitalSchema = Joi.object({
     phoneNumber: Joi.string().required().trim().pattern(new RegExp('^[6789]\\d{9}$')),
     departments: Joi.array().items(Joi.string().required()),
     servicesOffered: Joi.array().items(Joi.string()),
-    emergencyService: Joi.boolean()
+    emergencyService: Joi.boolean(),
+    capacity: Joi.number().integer().min(1).required(),
+    accreditation: Joi.string().valid('JCI', 'NABH', 'None'),
+    createdAt: Joi.date(),
+    updatedAt: Joi.date(),
+    ratings: Joi.array().items(Joi.object({
+        rating: Joi.number().min(1).max(5).required(),
+        comment: Joi.string().optional(),
+        date: Joi.date(),
+    }))
 }).with('email', 'password');
+
+//   DATASET THAT WE HAD CREATED 
+// {
+//     "name": "MediCare Hospital",
+//     "email": "contact@medicarehospital.com",
+//     "password": "Test@123",
+//     "address": {
+//         "street": "123 Health Ave",
+//         "city": "Healville",
+//         "state": "MedicState",
+//         "postalCode": "123456"
+//     },
+//     "phoneNumber": "6789012345",
+//     "departments": ["Cardiology", "Pediatrics", "Neurology"],
+//     "servicesOffered": ["Emergency Care", "Maternity Services"],
+//     "emergencyService": true,
+//     "capacity": 200,
+//     "accreditation": "JCI"
+// }
+
+
 
 
 const loginHospitalSchema = Joi.object({
@@ -41,7 +71,7 @@ const editHospitalSchema = Joi.object({
     departments: Joi.array().items(Joi.string()),
     servicesOffered: Joi.array().items(Joi.string()),
     emergencyService: Joi.boolean()
-});
+}).min(1);
 
 
 
@@ -65,7 +95,7 @@ const registerHospital = async (req, res) => {
         });
 
         await newHospital.save();
-        const token = jwt.sign({ hospitalId: newHospital._id }, process.env.JWT_SECRET);
+        const token = jwt.sign({ hospitalId: newHospital._id }, process.env.SECRET);
 
         res.status(201).json({ message: "Hospital registered successfully", token });
     } catch (error) {
@@ -92,7 +122,7 @@ const loginHospital = async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials." });
         }
 
-        const token = jwt.sign({ hospitalId: hospital._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ hospitalId: hospital._id }, process.env.SECRET, { expiresIn: '1h' });
         res.json({ message: "Login successful", token });
     } catch (error) {
         console.error("Login Error:", error);
@@ -103,7 +133,7 @@ const loginHospital = async (req, res) => {
 
 
 const getHospitalDetails = async (req, res) => {
-    const hospitalId = req.params.id;
+    const hospitalId = req.params.hospitalId;
 
     try {
         const hospital = await Hospital.findById(hospitalId);

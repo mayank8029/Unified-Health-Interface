@@ -37,6 +37,12 @@ const hospitalSchema = new Schema({
     trim: true,
     lowercase: true
   },
+
+  password: {
+    type: String,
+    required: true
+  },
+
   departments: [{
     type: String,
     required: true
@@ -54,6 +60,30 @@ const hospitalSchema = new Schema({
   }],
   location: locationSchema,
   // Additional fields such as capacity, ratings, etc., can be added here
+  capacity: {
+    type: Number,
+    required: [true, 'Hospital capacity required'],
+    min: [1, 'Capacity must be at least 1']
+  },
+  accreditation:[ {
+    type: String,
+    enum: ['JCI', 'NABH', 'None']
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
+  ratings: [{
+    rating: { type: Number, min: 1, max: 5 },
+    comment: String,
+    date: { type: Date, default: Date.now }
+  }]
+
+
 });
 
 hospitalSchema.plugin(mongoosePaginate)
