@@ -14,8 +14,8 @@ router.get('/login', loginClinic)
 router.get('/getclinics/search' , getClinicList)
 
 //get clinic details and edit them 
-router.get('/getclinics/:clinicId', getClinicDetails);
-router.put('/gethospitals/:clinicId/edit',authenticateClinic , editClinicDetails)
+router.get('/getclinics/:clinicid', getClinicDetails);
+router.put('/getclinics/:clinicId/edit',authenticateClinic , editClinicDetails)
 
 
 module.exports = router ; 

@@ -14,6 +14,8 @@ const locationSchema = new Schema({
   coordinates: { type: [Number], index: '2dsphere' } // [longitude, latitude]
 });
 
+locationSchema.index({ coordinates: '2dsphere' });
+
 const hospitalSchema = new Schema({
   name: {
     type: String,

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Clinic = require('../models/Clinic'); // Adjust the path to your Clinic model
+const Clinic = require('../models/Clinic'); 
 
 // Joi Schemas
 const registerClinicSchema = Joi.object({
@@ -14,6 +14,13 @@ const registerClinicSchema = Joi.object({
         state: Joi.string().required().trim(),
         postalCode: Joi.string().required().trim().regex(/^[0-9]+$/)
     }).required(),
+    location: Joi.object({
+        type: Joi.string().valid('Point').default('Point'),  // Validates only 'Point' type
+        coordinates: Joi.array().ordered(
+            Joi.number().min(-180).max(180).required(),  // Longitude, ensuring valid range
+            Joi.number().min(-90).max(90).required()     // Latitude, ensuring valid range
+        ).length(2).required()  // Requires exactly two items
+    }),
     phoneNumber: Joi.string().required().trim().pattern(new RegExp('^[6789]\\d{9}$')),
 }).with('email', 'password');
 
@@ -35,28 +42,35 @@ const editClinicSchema = Joi.object({
 });
 
 
+
 // Controller for registering a clinic
 const registerClinic = async (req, res) => {
-    const { value, error } = registerClinicSchema.validate(req.body);
-    if (error) {
-        return res.status(400).json({ error: error.details[0].message });
+    try{
+        const { value, error } = registerClinicSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
+        }
+    
+        const existingClinic = await Clinic.findOne({ email: value.email });
+        if (existingClinic) {
+            return res.status(400).json({ message: "Clinic already registered with this email." });
+        }
+    
+        const hashedPassword = await bcrypt.genSalt(10).then(salt => bcrypt.hash(value.password, salt));
+        const newClinic = new Clinic({
+            ...value,
+            password: hashedPassword
+        });
+    
+        await newClinic.save();
+        const token = jwt.sign({ clinicId: newClinic._id }, process.env.SECRET);
+    
+        res.status(201).json({ message: "Clinic registered successfully", token });
+    }catch(error){
+        console.error("Registration Error:", error);
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+
     }
-
-    const existingClinic = await Clinic.findOne({ email: value.email });
-    if (existingClinic) {
-        return res.status(400).json({ message: "Clinic already registered with this email." });
-    }
-
-    const hashedPassword = await bcrypt.genSalt(10).then(salt => bcrypt.hash(value.password, salt));
-    const newClinic = new Clinic({
-        ...value,
-        password: hashedPassword
-    });
-
-    await newClinic.save();
-    const token = jwt.sign({ clinicId: newClinic._id }, process.env.JWT_SECRET);
-
-    res.status(201).json({ message: "Clinic registered successfully", token });
 };
 
 // Controller for clinic login
@@ -76,12 +90,12 @@ const loginClinic = async (req, res) => {
         return res.status(401).json({ message: "Invalid credentials." });
     }
 
-    const token = jwt.sign({ clinicId: clinic._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ clinicId: clinic._id }, process.env.SECRET, { expiresIn: '1h' });
     res.json({ message: "Login successful", token });
 };
 
 const getClinicDetails = async (req, res) => {
-    const clinicId = req.params.id;
+    const clinicId = req.params.clinicid;
 
     try {
         const clinic = await Clinic.findById(clinicId);
@@ -131,12 +145,12 @@ const getClinicList = async(req , res)=>{
         if (longitude && latitude) {
             const maxDistance = 10000; // Define the search radius (10 kilometers)
             query.location = {
-                $near: { // MongoDB's $near operator for location-based queries
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [parseFloat(longitude), parseFloat(latitude)]
-                    },
-                    $maxDistance: maxDistance
+                $geoWithin: { // MongoDB's $near operator for location-based queries
+                    $centerSphere: [
+                        
+                         [parseFloat(longitude), parseFloat(latitude)],
+                          maxDistance/ 6378.1
+                    ],
                 }
             };
         }

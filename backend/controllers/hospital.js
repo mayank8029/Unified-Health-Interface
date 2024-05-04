@@ -15,6 +15,13 @@ const registerHospitalSchema = Joi.object({
         state: Joi.string().required().trim(),
         postalCode: Joi.string().required().trim().regex(/^[0-9]+$/)
     }).required(),
+    location: Joi.object({
+        type: Joi.string().valid('Point').default('Point'),  // Validates only 'Point' type
+        coordinates: Joi.array().ordered(
+            Joi.number().min(-180).max(180).required(),  // Longitude, ensuring valid range
+            Joi.number().min(-90).max(90).required()     // Latitude, ensuring valid range
+        ).length(2).required()  // Requires exactly two items
+    }),
     phoneNumber: Joi.string().required().trim().pattern(new RegExp('^[6789]\\d{9}$')),
     departments: Joi.array().items(Joi.string().required()),
     servicesOffered: Joi.array().items(Joi.string()),
@@ -29,26 +36,6 @@ const registerHospitalSchema = Joi.object({
         date: Joi.date(),
     }))
 }).with('email', 'password');
-
-//   DATASET THAT WE HAD CREATED 
-// {
-//     "name": "MediCare Hospital",
-//     "email": "contact@medicarehospital.com",
-//     "password": "Test@123",
-//     "address": {
-//         "street": "123 Health Ave",
-//         "city": "Healville",
-//         "state": "MedicState",
-//         "postalCode": "123456"
-//     },
-//     "phoneNumber": "6789012345",
-//     "departments": ["Cardiology", "Pediatrics", "Neurology"],
-//     "servicesOffered": ["Emergency Care", "Maternity Services"],
-//     "emergencyService": true,
-//     "capacity": 200,
-//     "accreditation": "JCI"
-// }
-
 
 
 
@@ -187,14 +174,14 @@ const getHospitalList = async(req , res)=>{
         if (longitude && latitude) {
             const maxDistance = 10000; // Define the search radius (10 kilometers)
             query.location = {
-                $near: { // MongoDB's $near operator for location-based queries
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [parseFloat(longitude), parseFloat(latitude)]
-                    },
-                    $maxDistance: maxDistance
+                $geoWithin: {
+                    $centerSphere: [
+                        [parseFloat(longitude), parseFloat(latitude)],
+                        maxDistance / 6378.1 // Convert distance to radians by dividing by Earth’s radius in kilometers
+                    ]
                 }
             };
+            
         }
 
         // Check if city or state is provided for attribute-based search

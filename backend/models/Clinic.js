@@ -8,6 +8,12 @@ const addressSchema = new Schema({
   state: { type: String, required: true },
   postalCode: { type: String, required: true }
 });
+const locationSchema = new Schema({
+  type: { type: String, default: 'Point' },
+  coordinates: { type: [Number], index: '2dsphere' } // [longitude, latitude]
+});
+
+locationSchema.index({ coordinates: '2dsphere' });
 
 const clinicSchema = new Schema({
   name: {
@@ -19,10 +25,7 @@ const clinicSchema = new Schema({
     type: addressSchema,
     required: true
   },
-  location: {
-    type: { type: String, default: 'Point' },
-    coordinates: { type: [Number], index: '2dsphere' }
-  },
+  location:locationSchema,
   phoneNumber: {
     type: String,
     required: true,
@@ -35,13 +38,22 @@ const clinicSchema = new Schema({
     unique: true,
     lowercase: true
   },
+  password: {
+    type: String,
+    required: true
+  },
   doctors: [{
     type: Schema.Types.ObjectId,
     ref: 'Doctor'
   }],
+  
 });
+
+
 
 // Adding the pagination plugin to the clinic schema
 clinicSchema.plugin(mongoosePaginate);
 
 const Clinic = mongoose.model('Clinic', clinicSchema);
+
+module.exports = Clinic

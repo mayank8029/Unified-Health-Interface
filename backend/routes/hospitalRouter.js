@@ -21,6 +21,5 @@ router.put('/gethospitals/:hospitalId/edit',authenticateHospital , editHospitalD
 // router.post('/hospitals/:hospitalId/appointments', createAppointmentWithHospital);
 
 
-
 //  // ---------------- There are something that we improve here like get doctors of hospital and then make appointment
 module.exports = router 
