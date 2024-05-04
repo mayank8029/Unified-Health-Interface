@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const {MedicalReportModel , MedicalReportSchema} = require('./MedicalReport')
+const mongoose = require('mongoose') 
+const {MedicalReportModel , medicalReportSchema} = require('./MedicalReport')
 const  {appointmentModel , appointmentSchema} = require('./Appointment')
 const consultedDoctorSchema = new mongoose.Schema({
     doctor_id: { type: String, required: true },
@@ -47,7 +47,7 @@ const userSchema= mongoose.Schema({
     },
 
     medicalReports:{
-        type:[MedicalReportSchema]
+        type:[medicalReportSchema]
     } ,
 
     appointmentSchema:{
