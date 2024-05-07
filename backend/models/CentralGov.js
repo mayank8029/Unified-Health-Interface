@@ -1,3 +1,5 @@
+const mongoose = require("mongoose")
+
 const centralGovernmentSchema = new mongoose.Schema({
     initiativeName: {
         type: String,
@@ -25,4 +27,5 @@ const centralGovernmentSchema = new mongoose.Schema({
 
 const CentralGovernment = mongoose.model('CentralGovernment', centralGovernmentSchema);
 
+module.exports = {CentralGovernment}
 
