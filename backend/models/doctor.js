@@ -75,6 +75,7 @@ const doctorSchema = new Schema({
   timeSlots: [{
     day: { type: String, required: true },
     start: { type: String, required: true },
+    Lunch:{type:String , required:true},
     end: { type: String, required: true }
   }],
   reviews: [reviewSchema],
