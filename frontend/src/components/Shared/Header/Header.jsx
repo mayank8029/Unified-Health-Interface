@@ -3,7 +3,7 @@ import './index.css';
 import useAuthCheck from '../../../redux/hooks/useAuthCheck';
 import TopHeader from '../TopHeader/TopHeader';
 import { Link, useNavigate } from 'react-router-dom';
-import img from '../../../images/logo.png';
+import img from '../../../images/logoNew.png';
 import avatar from '../../../images/avatar.jpg';
 import { Button, message } from 'antd';
 import { loggedOut } from '../../../service/auth.service';
